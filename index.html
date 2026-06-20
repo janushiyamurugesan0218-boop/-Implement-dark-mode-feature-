@@ -3,39 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Mode Feature</title>
+    <title>Responsive Form</title>
     <style>
-        /* Define color variables for Light Mode (Default) */
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #222222;
-            --card-bg: #f4f4f6;
-            --btn-bg: #007bff;
-            --btn-text: #ffffff;
-        }
-
-        /* Define color variables for Dark Mode */
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --card-bg: #1e1e1e;
-            --btn-bg: #bb86fc;
-            --btn-text: #121212;
-        }
-
-        /* Base styles utilizing variables */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            /* Smooth transitions when switching modes */
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -43,54 +21,170 @@
             padding: 20px;
         }
 
-        .container {
-            max-width: 500px;
+        .form-card {
+            background-color: #ffffff;
             width: 100%;
+            max-width: 650px; /* Limits size on desktop */
             padding: 40px;
-            border-radius: 12px;
-            background-color: var(--card-bg);
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
-        h1 {
-            margin-bottom: 15px;
-            font-size: 28px;
+        h2 {
+            margin-bottom: 8px;
+            color: #1a1a1a;
         }
 
-        p {
+        .subtitle {
+            color: #666;
+            font-size: 14px;
             margin-bottom: 30px;
-            line-height: 1.6;
-            font-size: 16px;
         }
 
-        /* Theme Toggle Button Style */
-        .theme-toggle-btn {
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
+        /* Responsive Row layout using dynamic flex direction */
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1; /* Allows inputs to grow and share space equally */
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
             font-weight: 600;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 6px;
+            color: #444;
         }
 
-        .theme-toggle-btn:hover {
-            opacity: 0.9;
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            background-color: #fafafa;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #0066cc;
+            background-color: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .error-text {
+            color: #df4759;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .btn-submit {
+            background-color: #0066cc;
+            color: #ffffff;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0052a3;
+        }
+
+        .success-banner {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: none;
+            text-align: center;
+        }
+
+        /* Responsive Media Query Breakpoint for Tablets & Phones */
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column; /* Stacks side-by-side inputs vertically */
+                gap: 20px;
+            }
+            .form-card {
+                padding: 24px; /* Slightly less padding on tiny displays */
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1 id="headline">Light Mode Active</h1>
-        <p>This component demonstrates how easily you can implement a dark mode feature using CSS variables and clean, native JavaScript orchestration.</p>
-        
-        <button class="theme-toggle-btn" id="theme-button">Switch to Dark Mode</button>
+    <div class="form-card">
+        <div class="success-banner" id="success-message">
+            Thank you! Your submission was processed successfully.
+        </div>
+
+        <h2>Get in Touch</h2>
+        <p class="subtitle">Please fill out the fields below and we'll reply shortly.</p>
+
+        <form id="responsive-form" novalidate>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name">
+                    <span class="error-text" id="first-name-error">First name is required</span>
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name">
+                    <span class="error-text" id="last-name-error">Last name is required</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email">
+                    <span class="error-text" id="email-error">Please enter a valid email</span>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <select id="subject">
+                        <option value="general">General Inquiry</option>
+                        <option value="support">Technical Support</option>
+                        <option value="feedback">Feedback</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" placeholder="Type your message here..."></textarea>
+                    <span class="error-text" id="message-error">Message cannot be left empty</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Submit Form</button>
+        </form>
     </div>
 
-    <script src="app.js"></script>
+    <script src="form-handler.js"></script>
 </body>
 </html>
